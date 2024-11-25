@@ -48,5 +48,19 @@ namespace ComputerApi.Controllers
             }
             return NotFound(new { message = "Nincs ilyen találat." });
         }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Osystem>> Put(string id, UpdateOsDto udto)
+        {
+            var existos = await _context.Osystems.FirstOrDefaultAsync(x => x.Id == id);
+            if (existos != null)
+            {
+                existos.Name = udto.name;
+                _context.Osystems.Update(existos);
+                await _context.SaveChangesAsync();
+                return Ok(existos);
+            }
+            return NotFound();
+        }
     }
 }

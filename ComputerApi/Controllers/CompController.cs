@@ -85,5 +85,29 @@ namespace ComputerApi.Controllers
             }
             return NotFound(new { message = "nincs ilyen" });
         }
+
+
+
+
+        [HttpGet("Data/{id}")]
+        public async Task<ActionResult<Comp>> GetlowCompwdata(string id)
+        {
+            using (var contex = new ComputerContext())
+            {
+
+                var comb = contex.Comps.FirstOrDefault(x => x.Id == id);
+
+                var data = contex.Osystems.Select(x => new { comb.Brand, comb.Memory,comb.Display,comb.Type }).Where(x => x.OsId == id).ToList(); ;
+
+
+
+                if (data != null)
+                {
+                    return Ok(data);
+                }
+
+                return NotFound();
+            }
+        }
     }
 }

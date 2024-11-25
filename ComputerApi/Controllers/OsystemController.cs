@@ -62,5 +62,16 @@ namespace ComputerApi.Controllers
             }
             return NotFound();
         }
+        [HttpDelete]
+        public async Task<ActionResult<Osystem>> Delete(string id)
+        {
+            var os = await _context.Osystems.FirstOrDefaultAsync(eos => eos.Id == id);
+            if(os != null)
+            {
+                _context.Osystems.Remove(os);
+                await _context.SaveChangesAsync();
+                return Ok(new { message = "Faha" });  }
+            return NotFound(new {message = "nincs ilyen"});
+        }
     }
 }
